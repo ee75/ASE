@@ -2,17 +2,22 @@ public class Manager {
 	
 	private PassengerList allPassengers;
 	private FlightList allFlights;
-	private Airport airportQueue;
+	private Airport airport;
+	private Log logwrite;
 	
 	public Manager() {
 		allPassengers = new PassengerList();
 		allFlights = new FlightList(allPassengers);
-		airportQueue = new Airport();
+		airport = new Airport();
+		logwrite = new Log();
 	}
     
 	public void run() {
+		logwrite.start();
 		allFlights.readFile("Flight_mock.csv");
 		allPassengers.readFile("Passenger_mock.csv");
-		airportQueue.PassengerListToQueue();	
+		airport.useloger(logwrite);
+		airport.PassengerListToQueue();		
+		airport.returnLoger().closeLog();
 	}
 }
