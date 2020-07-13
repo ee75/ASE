@@ -1,8 +1,13 @@
 import java.util.TreeSet;
 import java.util.concurrent.Semaphore;
+//V: Added for the OBSERVER pattern
+import java.util.*; 
+//V: Added for the MVC pattern. 
+//import interfaces.Obsever;
+//import interfaces.Subject;
 
-public class Airport {
-	int numberOfDesks = 2;   
+public class Airport implements Subject {
+	int numberOfDesks = 2;    
 	
 	//this acts as a "pass" to a empty desk, meaning only one thread
 	//can access a desk at a time
@@ -146,7 +151,37 @@ public class Airport {
 			try {t.sleep(50);} catch (InterruptedException e) {e.printStackTrace();}
 			t.start();
 		}
-	}	
+	}
+	//V:
+		// OBSERVER PATTERN
+	// SUBJECT must be able to register, remove and notify observers
+	
+	/**
+	 * List to hold any observers
+	 */
+	private List<Observer> registeredObservers = new LinkedList<Observer>();
+
+	/**
+	 * Register an observer with this subject
+	 */
+	public void registerObserver(Observer obs) {
+		registeredObservers.add(obs);
+	}
+
+	/**
+	 * De-register an observer with this subject
+	 */
+	public void removeObserver(Observer obs) {
+		registeredObservers.remove(obs);
+	}
+
+	/**
+	 * Inform all registered observers that there's been an update
+	 */
+	public void notifyObservers() {
+		for (Observer obs : registeredObservers)
+			obs.update();
+	}
 
 
 }
