@@ -1,0 +1,27 @@
+
+import javax.swing.JOptionPane;
+
+public class Counter implements Observer {
+	private int counter; // count of how many times the clock has been updated
+
+	/**
+	 * Initalises the counter
+	 */
+	
+	public Counter(Subject subject) {
+		//tells the airport that this Counter object wants to be
+		//added to the list of observers
+		subject.registerObserver(this);
+	}
+	
+	
+	/**
+	 * Tell Observer to update itself (from the Observer interface)
+	 */
+	public void update() {
+		counter++;
+		JOptionPane.showMessageDialog(null, "There have checked " + counter + " passengers");
+	}
+	
+	
+}
