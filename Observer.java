@@ -1,4 +1,3 @@
-package interfaces;
 
 /**
 *The Observer part of the Observer pattern
