@@ -10,6 +10,10 @@ public class Manager {
 		allFlights = new FlightList(allPassengers);
 		airport = new Airport();
 		logwrite = new Log();
+		//Vanesa added:
+		queueDisplay = new QueueDisplay(airport);
+		deskDisplay = new DeskDisplay(airport);
+		flightDisplay = new FlightDisplay(airport);
 	}
     
 	public void run() {
