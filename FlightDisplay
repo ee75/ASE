@@ -1,0 +1,31 @@
+	import java.awt.*;
+
+
+
+	import javax.swing.*;
+
+	public class FlightDisplay extends JPanel implements Observer {
+		
+		private Airport flightdata; // the clock data, containing the time
+		private JTextField onboard = new JTextField(10); // the clock display
+
+		// sets up general GUI
+		public FlightDisplay(Airport queue) {
+			this.flightdata = queue;
+			queue.registerObserver(this);
+			this.add(onboard);
+			onboard.setEditable(false);
+			onboard.setHorizontalAlignment(JTextField.CENTER);
+			Font flightFont = new Font("SansSerif", Font.BOLD, 14);
+			onboard.setFont(flightFont);
+			update();
+		}
+
+		/**
+		 * Tell Observer to update itself (from the Observer interface)
+		 */
+		//It needs code for the update
+		public void update() {
+		
+		}
+	}
