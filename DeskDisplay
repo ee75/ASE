@@ -1,0 +1,28 @@
+
+	import java.awt.*;
+	import javax.swing.*;
+
+	public class DeskDisplay extends JPanel implements Observer {
+		
+		private Airport deskdata; // the clock data, containing the time
+		private JTextField checkinin = new JTextField(10); // the clock display
+
+		// sets up general GUI
+		public DeskDisplay(Airport actual) {
+			this.deskdata = actual;
+			actual.registerObserver(this);
+			this.add(checkinin);
+			checkinin.setEditable(false);
+			checkinin.setHorizontalAlignment(JTextField.CENTER);
+			Font deskFont = new Font("SansSerif", Font.BOLD, 14);
+			checkinin.setFont(deskFont);
+			update();
+		}
+
+		/**
+		 * Tell Observer to update itself (from the Observer interface)
+	//It needs code for the update
+		public void update() {
+			
+		}
+	}
