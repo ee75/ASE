@@ -1,25 +1,35 @@
+package views;
 	import java.awt.*;
 
 
 
 	import javax.swing.*;
 
+import model.Airport;
+
 	public class FlightDisplay extends JPanel implements Observer {
 		
 		private Airport flightdata; // the clock data, containing the time
-		private JTextField onboard = new JTextField(10); // the clock display
+		//GUI Components
+		private JSplitPane splitPane2a, splitPane2b;
+		private JTextArea flight1List, flight2List, flight3List;
+		private JPanel flight1Pane, flight2Pane, flight3Pane;
 
 		// sets up general GUI
-		public FlightDisplay(Airport queue) {
-			this.flightdata = queue;
-			queue.registerObserver(this);
-			this.add(onboard);
-			onboard.setEditable(false);
-			onboard.setHorizontalAlignment(JTextField.CENTER);
-			Font flightFont = new Font("SansSerif", Font.BOLD, 14);
-			onboard.setFont(flightFont);
-			update();
-		}
+		public FlightDisplay(Airport flight) {	//Set SouthPanel for all flights information
+			//super()
+			this.flightdata = flight;
+			flight.registerOberserver(this);
+	        splitPane2a = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, flight1Pane, flight2Pane);
+	        splitPane2b = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, splitPane2a, flight3Pane);
+	        flight1Pane.setBackground(Color.PINK);
+	        flight2Pane.setBackground(Color.ORANGE);
+	        flight3Pane.setBackground(Color.BLUE);
+			//flight1Pane.setText(flightList.getFlightDetails());
+			//flight2Pane.setText(flightList.getFlightDetails());
+			//flight3Pane.setText(flightList.getFlightDetails());
+	        this.add(splitPane2b);
+	}
 
 		/**
 		 * Tell Observer to update itself (from the Observer interface)
