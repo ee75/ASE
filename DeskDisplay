@@ -1,28 +1,41 @@
+package views;
 
 	import java.awt.*;
 	import javax.swing.*;
 
+import model.Airport;
+
 	public class DeskDisplay extends JPanel implements Observer {
 		
-		private Airport deskdata; // the clock data, containing the time
-		private JTextField checkinin = new JTextField(10); // the clock display
+		private Airport deskdata; 
+		private JSplitPane splitPane1;
+		private JTextPane desk1Pane, desk2Pane;
+		private JTextArea desk1List, desk2List;
+		
 
 		// sets up general GUI
 		public DeskDisplay(Airport actual) {
+			//super()
 			this.deskdata = actual;
 			actual.registerObserver(this);
-			this.add(checkinin);
-			checkinin.setEditable(false);
-			checkinin.setHorizontalAlignment(JTextField.CENTER);
-			Font deskFont = new Font("SansSerif", Font.BOLD, 14);
-			checkinin.setFont(deskFont);
+			//Create a split pane with the two text panel for desk 1 and desk 2 status
+			splitPane1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desk1Pane, desk2Pane);
+			splitPane1.setDividerLocation(100);
+			desk1Pane.setFont(new Font (Font.MONOSPACED, Font.PLAIN,14));
+			desk1Pane.setEditable(false);
+			//desk1Pane.setText(airportDesk.useDesk());
+			desk2Pane.setFont(new Font (Font.MONOSPACED, Font.PLAIN,14));
+			desk2Pane.setEditable(false);
+			//desk2Pane.setText(airportDesk.useDesk());
+			this.add(splitPane1);
 			update();
 		}
 
 		/**
 		 * Tell Observer to update itself (from the Observer interface)
-	//It needs code for the update
+		 */
+		//It needs code for the update
 		public void update() {
-			
+		
 		}
 	}
