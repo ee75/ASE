@@ -1,32 +1,30 @@
 
+package views;
+
 import java.awt.*;
-
-
-
 import javax.swing.*;
+import interfaces.Observer;
+import model.Airport;
 
 public class QueueDisplay extends JPanel implements Observer {
 	
-	private Airport queuedata; // the clock data, containing the time
-	private JTextField queueList = new JTextField(10); // the clock display
-
+	private Airport queuedata; 
+	private JTextArea queueList;
 	// sets up general GUI
 	public QueueDisplay(Airport queue) {
 		this.queuedata = queue;
 		queue.registerObserver(this);
-		this.add(queueList);
-		queueList.setEditable(false);
-		queueList.setHorizontalAlignment(JTextField.CENTER);
 		Font queueFont = new Font("SansSerif", Font.BOLD, 14);
 		queueList.setFont(queueFont);
+		queueList.setEditable(false);
+		this.add(queueList);
 		update();
 	}
 
 	/**
 	 * Tell Observer to update itself (from the Observer interface)
 	 */
-   // Needs code for the update
-   
+	//It needs code for the update
 	public void update() {
 	
 	}
