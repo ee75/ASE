@@ -3,11 +3,12 @@ import java.util.concurrent.Semaphore;
 //V: Added for the OBSERVER pattern
 import java.util.*; 
 //V: Added for the MVC pattern. 
-//import interfaces.Obsever;
-//import interfaces.Subject;
+import interfaces.Obsever;
+import interfaces.Subject;
 
 public class Airport implements Subject {
 	int numberOfDesks = 2;    
+	private PassengerList passengerQueue = new PassengerList();
 	
 	//this acts as a "pass" to a empty desk, meaning only one thread
 	//can access a desk at a time
@@ -18,8 +19,9 @@ public class Airport implements Subject {
 	boolean lastCheckinComplete = false;
 	
 	//creates array of no. of desks long; auto set to 0 (waiting),
-	//I was thinking we could change so 1 is serving and 2 is closed
-	public int[] deskStatus = new int [numberOfDesks];
+	//I was thinking we could change so 2 is closed or its named
+	//after the thread it is serving.
+	public String[] deskStatus = new String[numberOfDesks];
 	
 	private Log superlogwiter;
 	
@@ -61,9 +63,6 @@ public class Airport implements Subject {
 
 
 
-				//for testing; we can see which desks are in use
-					//System.out.println("using desk statuses "+ Arrays.toString(deskStatus));
-
 			//increase the count of check-ins
 			int n = this.noCheckIns; n++;
 			this.noCheckIns = n;
@@ -72,12 +71,15 @@ public class Airport implements Subject {
 			//this will write a new line to the Log class
 			String threadName = t.getName();
 			String message = "Check-In " + noCheckIns + " (" + threadName 
-					+ ") at desk " + currantDesk;
+					+ ") at desk " + currantDesk;                    
 			superlogwiter.writeToLog(message);
 			
-			//Checks if every passenger has now checked in so we can close the 
-			//class.
-			if(n == PassengerList.passengerList.size()) {
+			//remove passenger from queue
+			passengerQueue.removePassenger(threadName);
+			              
+			//Checks if every passenger in the queue has now checked in so we 
+			//can close the class.
+			if(n == passengerQueue.getPassengerListSize()) {
 			lastCheckinComplete = true;
 			}
 			
@@ -89,8 +91,8 @@ public class Airport implements Subject {
 		public int identifyFreeDeskNo() {
 			int n = 999; //error number 
 			for (int i = 0; i < deskStatus.length; i++) {
-				if (deskStatus[i] == 0) {
-					deskStatus[i] = 1;
+				if (Integer.parseInt(deskStatus[i]) == 0) {
+					deskStatus[i] = Thread.currentThread().getName();
 					n = i+1; 
 					this.currantDesk = n; //System.out.println("useing desk no.:-" + n + " [" + currantDesk + "]");
 					break;
@@ -100,7 +102,7 @@ public class Airport implements Subject {
 		}		
 		//This one will mark the desk empty after use
 		public void emptyIdentifiedDesknoNo(int n) {
-			deskStatus[n-1] = 0; 
+			deskStatus[n-1] = Integer.toString(0); 
 			this.currantDesk = 999; //System.out.println("emtied desk no.:-" + n + " [" + currantDesk + "]");
 		}
 	}
@@ -115,19 +117,13 @@ public class Airport implements Subject {
 			String NameBRef = Thread.currentThread().getName();
 			System.out.println(NameBRef + " joined queue.");
 
-			// needs code to add passenger to returnable queue list 
-
-			
 			//Obtains "pass" for thread/passenger to use an empty desk
 			try {freeDesk.acquire();} 
 			catch (InterruptedException e) {e.printStackTrace();}
 			
-			
-			// needs code to add removal of passenger from the queue list 
-			
 			//finds the desk no the thread/passenger will use
 			int deskno = checkin.identifyFreeDeskNo(); 
-			//thread/passenger does the check-in process
+			//thread/passenger does the check-in process			 
 			checkin.useDesk();
 			//thread/passenger leaves desk marking it empty
 			checkin.emptyIdentifiedDesknoNo(deskno);
@@ -143,6 +139,7 @@ public class Airport implements Subject {
 	public void PassengerListToQueue(){
 		TreeSet<Passenger> passengerList = PassengerList.getPassengerList();
 		for(Passenger p: passengerList ) {
+			passengerQueue.add(p);
 			String plName = p.getPassengerName().getLastName();
 			String pbRef = Integer.toString(p.getBookingReference());
 			String NameBRef = plName + pbRef; //gives unique code 
@@ -152,6 +149,31 @@ public class Airport implements Subject {
 			t.start();
 		}
 	}
+	
+	public String getDeskStatuses(int deskNo) {
+		String message = "";
+		if (Integer.parseInt(deskStatus[deskNo-1]) == 0) {
+			message = "Desk " + deskNo + " is waiting.";	
+		} else if (Integer.parseInt(deskStatus[deskNo-1]) == 2) {
+			message = "Desk " + deskNo + " is closed.";
+		} else {
+			String bRefName = deskStatus[deskNo-1];
+			String bRef = (String) bRefName.subSequence(0, 4);
+			String lName = (String) bRefName.substring(5);
+			Name pName = PassengerList.findPassenger(bRef,lName).getPassengerName();
+			
+			message = "Desk " + deskNo + " is serving " + pName;
+		}
+		return message;
+	}
+	
+	public PassengerList getPassengerQueue() {
+		return passengerQueue;
+	}
+	
+	
+	
+	
 	//V:
 		// OBSERVER PATTERN
 	// SUBJECT must be able to register, remove and notify observers
