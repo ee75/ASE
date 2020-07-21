@@ -24,13 +24,13 @@ public class Log {
 	public void writeToLog(String message) {
 		    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		try {
-					fw.write("\n" + timestamp + "\n	" + message + "\n");
+				fw.write("\n" + timestamp + "		" + message + "\n");            
 		} catch (IOException e) {e.printStackTrace();}
 	}
 
 	public void closeLog() {
-		System.out.println("Logger closed.");
 		try {fw.close();} catch (IOException e) {e.printStackTrace();}
+		System.out.println("Logger closed.");
 	}
 
 }
