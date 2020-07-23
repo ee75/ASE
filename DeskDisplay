@@ -36,6 +36,9 @@ import model.Airport;
 		 */
 		//It needs code for the update
 		public void update() {
-		
+			String text1 = deskdata.getDeskStatuses(1);
+			desk1Pane.setText(text1);
+			String text2 = deskdata.getDeskStatuses(2);
+			desk2Pane.setText(text2);
 		}
 	}
