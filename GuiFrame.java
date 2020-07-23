@@ -19,25 +19,23 @@ public class GuiFrame extends JFrame {
     
 	
 	//Create Frame & panel
-	public GuiFrame(Airport model){
+		public GuiFrame(Airport model){
 		
 		//Set Close by default close button of window
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		//Set Window Title showing the current desk 
-		setTitle("Desk" );  //+ String.format("%-4s", adesk.findCurrentDesk()));
-
+		//Gui Title
+		setTitle("Airport Check-in Status" ); 
+		
 		//Set Queue Display Panel
-		//setupNorthPanel();
 		add(BorderLayout.NORTH, new QueueDisplay(model));
-		//setupCenterPanel();
+		//Set Desk Display Panel
 		add(BorderLayout.CENTER, new DeskDisplay(model));
-		//setupSouthPanel();
+		//Set Flight Display Panel
 		add(BorderLayout.SOUTH, new FlightDisplay(model));
 
 	
 
 	}
-	
 
 }
