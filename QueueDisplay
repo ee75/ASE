@@ -6,26 +6,44 @@ import javax.swing.*;
 import interfaces.Observer;
 import model.Airport;
 
-public class QueueDisplay extends JPanel implements Observer {
+public class QueueDisplay extends JPanel {
 	
-	private Airport queuedata; 
-	private JTextArea queueList;
-	// sets up general GUI
+	private static Airport queuedata; 
+	private JFrame frame;
+	private JPanel panel;
 	public QueueDisplay(Airport queue) {
-		this.queuedata = queue;
-		queue.registerObserver(this);
-		Font queueFont = new Font("SansSerif", Font.BOLD, 14);
-		queueList.setFont(queueFont);
-		queueList.setEditable(false);
-		this.add(queueList);
-		update();
+		
+		frame = new JFrame();
+		
+		panel = new JPanel();
+		panel.setBorder(BorderFactory.createEmptyBorder(300, 300, 100, 300));
+		panel.setLayout(new GridLayout(0,1));
+		frame.add(panel, BorderLayout.CENTER);
+		frame.setTitle("Queue Display");
+		frame.pack();
+		frame.setVisible(true);
+		
+		//this.queuedata = queue;
+		//queue.registerObserver(this);
+		//Font queueFont = new Font("SansSerif", Font.BOLD, 14);
+		//queueList.setFont(queueFont);
+		//queueList.setEditable(false);
+		//this.add(queueList);
+		//update();
+		
+	
 	}
-
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	/**
 	 * Tell Observer to update itself (from the Observer interface)
 	 */
 	//It needs code for the update
-	public void update() {
+//	public void update() {
 	
-	}
+	//}
 }
