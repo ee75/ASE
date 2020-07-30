@@ -1,4 +1,4 @@
-
+import java.util.Random;
 public class Passenger implements Comparable<Passenger> {
 	
 	//instance variables
@@ -48,12 +48,41 @@ public class Passenger implements Comparable<Passenger> {
 		return checkedIn;
 	}
 	public double getFee() {
+		fee = 0;
+		double vol = this.getBagVolume();
+		double weight = this.getBagWeight();
+		if (vol > 0.3) {
+			if (((vol - 0.3) <= 0.05) && (weight <= 20)) {
+				fee = 10;
+			}
+			else if (((vol - 0.3) <= 0.05) && ((weight - 20) <= 1)) {
+				fee = 10+10;
+			}
+			else if (((vol - 0.3) <= 0.05) && ((weight - 20) > 1)) {
+				fee = 10+(10*(weight - 20));
+			}
+			else if (((vol - 0.3) > 0.05) && (weight <= 20)) {
+				fee = 10 * (vol - 0.3)/0.05;
+			}
+			else if (((vol - 0.3) > 0.05) && ((weight - 20) <= 1)) {
+				fee = (10 * (vol - 0.3)/0.05)+10;
+			}
+			else if (((vol - 0.3) > 0.05) && ((weight - 20) > 1)) {
+				fee = (10 * (vol - 0.3)/0.05)+(10*(weight - 20));
+			}
+		}
 		return fee;
 	}
 	public double getBagWeight() {
+		Random random = new Random();
+		double variance = random.nextInt(7) + random.nextDouble();
+		double variance1 = random.nextInt(7) + random.nextDouble();
+		bagWeight = 20 + variance - variance1;
 		return bagWeight;
 	}
 	public double getBagVolume() {
+		bagVol = Math.random();
+		bagVol = bagVol/2;
 		return bagVol;
 	}
 	
@@ -70,27 +99,5 @@ public class Passenger implements Comparable<Passenger> {
 	public void checkIn() {
 		checkedIn = true;
 	}
-	public double feeByVol(double vol) {
-		double fee1 = 0;
-		if (vol > 0.3) {
-			if ((vol - 0.3) <= 0.05) {
-				fee1 = 10;
-			}
-			else {
-				fee1 = 10 * (vol - 0.3)/0.05;}
-		}
-		return fee1;
-	}
 	
-	public double feeByWeight (double weight) {
-		double fee2 = 0;
-		if (weight > 20) {
-			if ((weight - 20) <= 1) {
-				fee2 = 10;
-			}
-			else {
-				fee2 = 10 * (weight - 20);}
-			}
-		return fee2;
-	}
 }
